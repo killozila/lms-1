@@ -1,13 +1,13 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { CourseHero } from "./CourseHero";
-import { ModuleAccordion } from "./ModuleAccordion";
-import { CourseCompleteButton } from "./CourseCompleteButton";
-import { GatedFallback } from "./GatedFallback";
-import { useUserTier, hasTierAccess } from "@/lib/hooks/use-user-tier";
+import { hasTierAccess, useUserTier } from "@/lib/hooks/use-user-tier";
 import type { COURSE_WITH_MODULES_QUERYResult } from "@/sanity.types";
 import { Skeleton } from "../ui/skeleton";
+import { CourseCompleteButton } from "./CourseCompleteButton";
+import { CourseHero } from "./CourseHero";
+import { GatedFallback } from "./GatedFallback";
+import { ModuleAccordion } from "./ModuleAccordion";
 
 interface CourseContentProps {
   course: NonNullable<COURSE_WITH_MODULES_QUERYResult>;
@@ -37,6 +37,7 @@ export function CourseContent({ course, userId }: CourseContentProps) {
   const isCourseCompleted = userId
     ? (course.completedBy?.includes(userId) ?? false)
     : false;
+  const courseSlug = course.slug?.current;
 
   if (!isAuthLoaded) {
     return <Skeleton className="w-full h-full" />;
@@ -57,10 +58,10 @@ export function CourseContent({ course, userId }: CourseContentProps) {
       {hasAccess ? (
         <div className="space-y-8">
           {/* Course completion progress */}
-          {userId && (
+          {userId && courseSlug && (
             <CourseCompleteButton
               courseId={course._id}
-              courseSlug={course.slug!.current!}
+              courseSlug={courseSlug}
               isCompleted={isCourseCompleted}
               completedLessons={completedLessons}
               totalLessons={totalLessons}

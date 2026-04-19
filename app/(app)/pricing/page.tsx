@@ -1,14 +1,8 @@
-import Link from "next/link";
 import { PricingTable } from "@clerk/nextjs";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Sparkles,
-  Loader2,
-  Code2,
-} from "lucide-react";
-import { TIER_FEATURES, getTierColorClasses } from "@/lib/constants";
+import { CheckCircle2, Code2, Loader2, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { Header } from "@/components/Header";
+import { getTierColorClasses, TIER_FEATURES } from "@/lib/constants";
 
 export default function PricingPage() {
   return (

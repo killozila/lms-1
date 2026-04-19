@@ -141,15 +141,18 @@
 /* Clerk Pricing Table text styling */
 .cl-pricingTableCardPeriodToggle label,
 .cl-pricingTableCardPeriodToggle span {
+  /* biome-ignore lint/complexity/noImportantStyles: Clerk injects component styles after app CSS. */
   color: white !important;
 }
 
 .cl-pricingTableCardHeader,
 .cl-pricingTableCardHeader * {
+  /* biome-ignore lint/complexity/noImportantStyles: Clerk injects component styles after app CSS. */
   color: white !important;
 }
 
 .cl-pricingTableCardTitle {
+  /* biome-ignore lint/complexity/noImportantStyles: Clerk injects component styles after app CSS. */
   text-transform: capitalize !important;
 }
 
@@ -160,6 +163,7 @@
 
 @media (max-width: 750px) {
   .cl-pricingTable {
+    /* biome-ignore lint/complexity/noImportantStyles: Clerk controls this grid inline on the pricing table. */
     grid-template-columns: 1fr !important;
     max-width: 400px;
     margin: 0 auto;
@@ -168,6 +172,7 @@
 
 @media (min-width: 750px) {
   .cl-pricingTable {
+    /* biome-ignore lint/complexity/noImportantStyles: Clerk controls this grid inline on the pricing table. */
     grid-template-columns: repeat(3, 1fr) !important;
   }
 }
@@ -175,5 +180,6 @@
 /* Clerk modal z-index fixes */
 div[role="dialog"],
 div[role="alertdialog"] {
+  /* biome-ignore lint/complexity/noImportantStyles: Third-party modals need to sit above the app shell. */
   z-index: 99999 !important;
 }

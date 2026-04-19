@@ -1,33 +1,39 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/Header";
-import { CourseCard } from "@/components/courses";
+import { currentUser } from "@clerk/nextjs/server";
 import {
   ArrowRight,
-  Play,
   BookOpen,
-  Code2,
-  Rocket,
-  Crown,
   CheckCircle2,
-  Star,
-  Users,
-  Trophy,
-  Sparkles,
+  Code2,
+  Crown,
   LayoutDashboard,
+  Play,
+  Rocket,
+  Sparkles,
+  Star,
+  Trophy,
+  Users,
 } from "lucide-react";
+import Link from "next/link";
+import { CourseCard } from "@/components/courses";
+import { Header } from "@/components/Header";
+import { Button } from "@/components/ui/button";
 import { sanityFetch } from "@/sanity/lib/live";
 import { FEATURED_COURSES_QUERY, STATS_QUERY } from "@/sanity/lib/queries";
-import { currentUser } from "@clerk/nextjs/server";
+import type {
+  FEATURED_COURSES_QUERYResult,
+  STATS_QUERYResult,
+} from "@/sanity.types";
 
 export default async function Home() {
   // Fetch featured courses, stats, and check auth status
-  const [{ data: courses }, { data: stats }, user] = await Promise.all([
+  const [{ data: coursesData }, { data: statsData }, user] = await Promise.all([
     sanityFetch({ query: FEATURED_COURSES_QUERY }),
     sanityFetch({ query: STATS_QUERY }),
     currentUser(),
   ]);
 
+  const courses = coursesData as FEATURED_COURSES_QUERYResult;
+  const stats = statsData as STATS_QUERYResult;
   const isSignedIn = !!user;
 
   return (
@@ -278,18 +284,26 @@ export default async function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {courses.map((course) => (
-              <CourseCard
-                key={course.slug!.current!}
-                slug={{ current: course.slug!.current! }}
-                title={course.title}
-                description={course.description}
-                tier={course.tier}
-                thumbnail={course.thumbnail}
-                moduleCount={course.moduleCount}
-                lessonCount={course.lessonCount}
-              />
-            ))}
+            {courses.map((course) => {
+              const slug = course.slug?.current;
+
+              if (!slug) {
+                return null;
+              }
+
+              return (
+                <CourseCard
+                  key={slug}
+                  slug={{ current: slug }}
+                  title={course.title}
+                  description={course.description}
+                  tier={course.tier}
+                  thumbnail={course.thumbnail}
+                  moduleCount={course.moduleCount}
+                  lessonCount={course.lessonCount}
+                />
+              );
+            })}
           </div>
 
           <div className="text-center mt-10">

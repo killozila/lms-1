@@ -1,5 +1,5 @@
+import { CheckCircle2, Lock, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { Lock, Sparkles, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TIER_FEATURES, TIER_STYLES, type Tier } from "@/lib/constants";
 

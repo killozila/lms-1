@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { Search } from "lucide-react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { CourseCard } from "./CourseCard";
-import { TierFilterTabs, type TierFilter } from "./TierFilterTabs";
-import { useUserTier, hasTierAccess } from "@/lib/hooks/use-user-tier";
+import { hasTierAccess, useUserTier } from "@/lib/hooks/use-user-tier";
 import type { DASHBOARD_COURSES_QUERYResult } from "@/sanity.types";
+import { CourseCard } from "./CourseCard";
+import { type TierFilter, TierFilterTabs } from "./TierFilterTabs";
 
 // Infer course type from Sanity query result
 export type CourseListCourse = DASHBOARD_COURSES_QUERYResult[number];
@@ -78,19 +78,27 @@ export function CourseList({
       {/* Course Grid */}
       {filteredCourses.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.map((course) => (
-            <CourseCard
-              key={course.slug!.current!}
-              slug={{ current: course.slug!.current! }}
-              title={course.title}
-              description={course.description}
-              tier={course.tier}
-              thumbnail={course.thumbnail}
-              moduleCount={course.moduleCount}
-              lessonCount={course.lessonCount}
-              isLocked={!hasTierAccess(userTier, course.tier)}
-            />
-          ))}
+          {filteredCourses.map((course) => {
+            const slug = course.slug?.current;
+
+            if (!slug) {
+              return null;
+            }
+
+            return (
+              <CourseCard
+                key={slug}
+                slug={{ current: slug }}
+                title={course.title}
+                description={course.description}
+                tier={course.tier}
+                thumbnail={course.thumbnail}
+                moduleCount={course.moduleCount}
+                lessonCount={course.lessonCount}
+                isLocked={!hasTierAccess(userTier, course.tier)}
+              />
+            );
+          })}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-16 text-center">

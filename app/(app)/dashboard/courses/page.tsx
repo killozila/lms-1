@@ -1,10 +1,11 @@
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import { BookOpen } from "lucide-react";
-import { Header } from "@/components/Header";
+import { redirect } from "next/navigation";
 import { CourseCard } from "@/components/courses";
+import { Header } from "@/components/Header";
 import { sanityFetch } from "@/sanity/lib/live";
 import { DASHBOARD_COURSES_QUERY } from "@/sanity/lib/queries";
+import type { DASHBOARD_COURSES_QUERYResult } from "@/sanity.types";
 
 export default async function MyCoursesPage() {
   const user = await currentUser();
@@ -13,10 +14,11 @@ export default async function MyCoursesPage() {
     redirect("/");
   }
 
-  const { data: courses } = await sanityFetch({
+  const { data } = await sanityFetch({
     query: DASHBOARD_COURSES_QUERY,
     params: { userId: user.id },
   });
+  const courses = data as DASHBOARD_COURSES_QUERYResult;
 
   // Calculate completion for each course and filter to started ones
   type Course = (typeof courses)[number];
@@ -81,21 +83,29 @@ export default async function MyCoursesPage() {
 
         {startedCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {startedCourses.map((course) => (
-              <CourseCard
-                key={course.slug!.current!}
-                slug={{ current: course.slug!.current! }}
-                title={course.title}
-                description={course.description}
-                tier={course.tier}
-                thumbnail={course.thumbnail}
-                moduleCount={course.moduleCount}
-                lessonCount={course.totalLessons}
-                completedLessonCount={course.completedLessons}
-                isCompleted={course.completedBy?.includes(user.id) ?? false}
-                showProgress
-              />
-            ))}
+            {startedCourses.map((course) => {
+              const slug = course.slug?.current;
+
+              if (!slug) {
+                return null;
+              }
+
+              return (
+                <CourseCard
+                  key={slug}
+                  slug={{ current: slug }}
+                  title={course.title}
+                  description={course.description}
+                  tier={course.tier}
+                  thumbnail={course.thumbnail}
+                  moduleCount={course.moduleCount}
+                  lessonCount={course.totalLessons}
+                  completedLessonCount={course.completedLessons}
+                  isCompleted={course.completedBy?.includes(user.id) ?? false}
+                  showProgress
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-16">

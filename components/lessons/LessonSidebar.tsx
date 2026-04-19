@@ -1,21 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { CheckCircle2, Circle, Play } from "lucide-react";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import type { LESSON_BY_ID_QUERYResult } from "@/sanity.types";
 
 // Infer types from Sanity query result
 type Course = NonNullable<LESSON_BY_ID_QUERYResult>["courses"][number];
 type CourseModules = Course["modules"];
 type Module = NonNullable<CourseModules>[number];
-type Lesson = NonNullable<Module["lessons"]>[number];
 
 interface LessonSidebarProps {
   courseSlug: string;
@@ -100,16 +99,21 @@ export function LessonSidebar({
 
                   <AccordionContent className="pb-3 pt-1">
                     <div className="ml-4 border-l-2 border-zinc-800 pl-3 space-y-1">
-                      {module.lessons?.map((lesson, lessonIndex) => {
+                      {module.lessons?.map((lesson) => {
                         const isActive = lesson._id === currentLessonId;
                         const isCompleted = completedLessonIds.includes(
                           lesson._id,
                         );
+                        const slug = lesson.slug?.current;
+
+                        if (!slug) {
+                          return null;
+                        }
 
                         return (
                           <Link
                             key={lesson._id}
-                            href={`/lessons/${lesson.slug!.current!}`}
+                            href={`/lessons/${slug}`}
                             className={cn(
                               "flex items-center gap-2.5 pl-2 pr-3 py-2 rounded-lg text-sm transition-colors",
                               isActive

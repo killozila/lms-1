@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function DocumentListSkeleton() {
@@ -26,10 +27,15 @@ export function DocumentCardSkeleton() {
 }
 
 export function DocumentGridSkeleton({ count = 4 }: { count?: number }) {
+  const skeletonIds = useMemo(
+    () => Array.from({ length: count }, () => crypto.randomUUID()),
+    [count],
+  );
+
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {Array.from({ length: count }).map((_, i) => (
-        <DocumentCardSkeleton key={i} />
+      {skeletonIds.map((id) => (
+        <DocumentCardSkeleton key={id} />
       ))}
     </div>
   );
@@ -66,4 +72,3 @@ export function ModuleListSkeleton() {
     </div>
   );
 }
-
