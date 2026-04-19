@@ -32,6 +32,9 @@ importers:
       '@mux/mux-node':
         specifier: ^12.8.0
         version: 12.8.0
+      '@mux/mux-player-react':
+        specifier: 3.9.1
+        version: 3.9.1(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@mux/mux-uploader-react':
         specifier: ^1.4.0
         version: 1.4.0(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -41,9 +44,15 @@ importers:
       '@portabletext/keyboard-shortcuts':
         specifier: ^2.1.0
         version: 2.1.0
+      '@portabletext/react':
+        specifier: 5.0.0
+        version: 5.0.0(react@19.2.0)
       '@portabletext/toolbar':
         specifier: ^4.0.11
         version: 4.0.11(@portabletext/editor@3.1.1(@portabletext/sanity-bridge@1.2.6(@sanity/schema@4.19.0(@types/react@19.2.7))(@sanity/types@4.19.0(@types/react@19.2.7)))(@sanity/schema@4.19.0(@types/react@19.2.7))(@sanity/types@4.19.0(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(rxjs@7.8.2))(@types/react@19.2.7)(react@19.2.0)
+      '@portabletext/types':
+        specifier: 3.0.0
+        version: 3.0.0
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -77,6 +86,9 @@ importers:
       '@radix-ui/react-tabs':
         specifier: ^1.1.13
         version: 1.1.13(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@sanity/icons':
+        specifier: 3.7.4
+        version: 3.7.4(react@19.2.0)
       '@sanity/image-url':
         specifier: ^1.2.0
         version: 1.2.0
@@ -141,6 +153,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.2.0
         version: 2.2.0
+      '@next/env':
+        specifier: 16.0.5
+        version: 16.0.5
       '@sanity/cli':
         specifier: 3.88.1-typegen-experimental.0
         version: 3.88.1-typegen-experimental.0(@types/node@20.19.25)(@types/react@19.2.7)(jiti@2.6.1)(lightningcss@1.30.2)(react@19.2.0)(typescript@5.9.3)(yaml@2.8.1)
